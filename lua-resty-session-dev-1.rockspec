@@ -29,6 +29,7 @@ build = {
         ["resty.session.strategies.regenerate"] = "lib/resty/session/strategies/regenerate.lua",
         ["resty.session.strategies.sessionlimit"] = "lib/resty/session/strategies/sessionlimit.lua",
         ["resty.session.hmac.sha1"]             = "lib/resty/session/hmac/sha1.lua",
+        ["resty.session.hmac.sha256"]           = "lib/resty/session/hmac/sha256.lua",
         ["resty.session.ciphers.aes"]           = "lib/resty/session/ciphers/aes.lua",
         ["resty.session.ciphers.none"]          = "lib/resty/session/ciphers/none.lua",
         ["resty.session.compressors.none"]      = "lib/resty/session/compressors/none.lua",
