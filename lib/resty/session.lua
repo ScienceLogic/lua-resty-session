@@ -463,7 +463,7 @@ function session:parse_cookie(value)
     end
 
     if cookie.expires <= self.now then
-        return nil, "session cookie has expired"
+        return cookie, "session cookie has expired"
     end
 
     if cookie.usebefore and cookie.usebefore <= self.now then
@@ -599,6 +599,20 @@ function session.open(opts, keep_lock)
     local cookie = self:get_cookie()
     if cookie then
         cookie, err = self:parse_cookie(cookie)
+
+        if err then
+            if string.find(err, "expired") then
+                local cookie_id, err_2 = self.encoder.encode(cookie.id)
+                if err_2 then
+                    ngx.log(ngx.INFO, "Session has expired. Unable to encode session id")
+                else
+                    ngx.log(ngx.INFO, "Session has expired. Session ID: " .. cookie_id)
+                end
+            end
+            --- Cookie should be nil to continue normal flow ---
+            cookie = nil
+        end
+
         if cookie then
             local ok
             ok, err = self.strategy.open(self, cookie, keep_lock)
